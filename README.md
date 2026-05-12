@@ -1,17 +1,9 @@
-# ⚽ Soccer Ball Creator
+# Soccer Ball Creator
 
-Map any image onto a 3D soccer-ball surface. Two implementations:
+Map any image onto a 3D soccer-ball surface — drop an image on the left, see it tiled around an interactive sphere on the right.
 
-- **`soccer_ball_creator.py`** — Python script using `matplotlib` to render a mirrored 3D soccer ball. Adjustable triangle sides + pixel density.
+**Live:** https://abobabo91.github.io/soccer_ball_creator/
 
-  ```bash
-  pip install pillow numpy matplotlib
-  python soccer_ball_creator.py
-  ```
+![Example output](screenshots/output_example.jpg)
 
-- **`soccer_ball_standalone_v8.html`** — single-file browser app with a live interactive 3D preview (Three.js-style canvas, dual-pane layout). Open the HTML file directly in any modern browser — no server, no build step.
-
-## Where it lives
-
-- **Repo**: https://github.com/abobabo91/soccer_ball_creator (private)
-- **Deployment**: not deployed. The HTML is runnable locally only — open the file in a browser. (Sibling repo `soccer_free_kick` is published on GitHub Pages; this one isn't.)
+Pure client-side HTML + WebGL — drop an image, pan/zoom the source, orbit the ball with mouse drag, tweak `Sides` and `Hemisphere Mirror`. No server, no build.

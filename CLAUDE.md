@@ -1,29 +1,27 @@
 # soccer_ball_creator
 
-Generates 3D soccer-ball textures from a flat image. Two surfaces:
-- `soccer_ball_creator.py` — Python + matplotlib scripted visualization
-- `soccer_ball_standalone_v8.html` — single-file interactive 3D preview in the browser
+Single-page in-browser tool that maps an uploaded image onto a 3D soccer-ball sphere (WebGL, vanilla JS). Deployed to GitHub Pages at `https://abobabo91.github.io/soccer_ball_creator/`.
 
 ## Critical rules
 
-- The HTML version is **intentionally single-file** (`soccer_ball_standalone_v8.html`). No build, no dependencies. Don't split it into modules.
-- The two surfaces (Python + HTML) are independent. Don't try to share logic between them — different rendering pipelines.
-- The version suffix in the HTML filename (`v8`) suggests there have been iterations. If you make a substantive change, bump the version OR replace in-place if it's a bugfix — match the existing naming intent.
+- NEVER introduce a build step, bundler, or dependency. The project is **intentionally single-file** (`index.html`) with zero build pipeline — that's the design.
+- All JS, CSS, and shaders live inline in `index.html`. Don't extract to a shared `.js` / `.css` file without a strong reason.
+- Pages are deployed as-is via GitHub Pages on push to `main` — no CI, no build artifacts. Anything that touches Pages config affects the live URL.
 
 ## Stack & run
 
-- **Python**: `pip install pillow numpy matplotlib && python soccer_ball_creator.py`
-- **HTML**: open `soccer_ball_standalone_v8.html` directly in a browser (no server, no build)
+- Pure HTML + WebGL + vanilla JS — no framework, no bundler
+- Run locally: open `index.html` directly in a browser (no server needed)
+- Deploy: push to `main` → GitHub Pages serves from repo root
 
 ## Where things live
 
-- Python entry: `soccer_ball_creator.py`
-- HTML entry: `soccer_ball_standalone_v8.html` (current version)
-- Sample images / reference: `images/`
-- License: `LICENSE`
+- `index.html` — the entire app (left pane: 2D canvas image uploader with pan/zoom; right pane: WebGL textured sphere)
+- `screenshots/` — README images
 
 ## Gotchas
 
-- The Python version uses **mirrored spherical projection** — it deliberately mirrors the texture for visual symmetry. If you change the projection math, document why.
-- HTML 3D rendering likely uses three.js or canvas (verify by reading the file). Browser WebGL support is required.
-- Triangle subdivision count + pixel density are tunable in the Python script — defaults are calibrated for visual clarity, not performance.
+- All assets load directly from the repo root via GitHub Pages — paths must be relative, not absolute.
+- The fragment shader tiles the texture with a mirrored-coordinate function (`mc`) — that's deliberate, it's what produces the symmetric ball-panel look. Don't "fix" it.
+- `Sides` (default 4) controls horizontal tile count; `Hemisphere Mirror` doubles vertical tiling. Both are uniforms hot-swapped without rebuilding the mesh.
+- WebGL is required. If `gl` is null the script alerts and exits.
